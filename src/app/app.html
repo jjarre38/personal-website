@@ -1,0 +1,110 @@
+<main class="home">
+  <header class="header">
+    <h1 class="serif-title">Jairon Jarrett</h1>
+    <p>Aspiring Software Engineer/Future Professor</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    @for (tab of tabs; track tab) {
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [class.active]="activeTab() === tab"
+        [attr.aria-selected]="activeTab() === tab"
+        (click)="selectTab(tab)"
+      >
+        {{ tab }}
+      </button>
+    }
+  </nav>
+
+  <section class="panel" role="tabpanel">
+    @switch (activeTab()) {
+      @case ('About') {
+        <h2>About</h2>
+        <p>My name is Jairon Jarrett and I am a senior at Kennesaw State University<br> pursuing a BS in Computer Science with a minor in Mathematics.<br>
+        I love to code, play guitar, workout, and watch UFC (every saturday)!</p>
+      }
+      @case ('Projects') {
+  <h2>Projects</h2>
+  <div class="cards">
+    @for (project of projects; track project.title) {
+      <a class="card" [href]="project.url" target="_blank" rel="noopener noreferrer">
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.summary }}</p>
+        @if (project.tags?.length) {
+          <ul class="tags">
+            @for (tag of project.tags; track tag) {
+              <li>{{ tag }}</li>
+            }
+          </ul>
+        }
+      </a>
+    }
+  </div>
+}
+      @case ('Resume') {
+  <h2>Resume</h2>
+  <p class="resume-actions">
+    <a href="ResumeNow.pdf" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+    <span aria-hidden="true">·</span>
+    <a href="ResumeNow.pdf" download="ResumeNow.pdf">Download PDF</a>
+  </p>
+
+  <object
+  class="resume-viewer"
+  data="ResumeNow.pdf#navpanes=0&view=FitH"
+  type="application/pdf"
+>
+  <p>Your browser can't display PDFs inline. Use the links above to view it.</p>
+</object>
+}   
+      @case ('Contact') {
+  <h2>Contact</h2>
+  <div class="cards contact-cards">
+    <a class="card" href="mailto:jaironjarrett25@gmail.com">
+      <h3>Email</h3>
+      <p>jaironjarrett25&#64;gmail.com</p>
+    </a>
+
+    <a class="card" href="https://www.linkedin.com/in/jaironjarrett" target="_blank" rel="noopener noreferrer">
+      <h3>LinkedIn</h3>
+      <p>linkedin.com/in/your-linkedin-handle</p>
+    </a>
+
+    <a class="card" href="https://github.com/jjarre38" target="_blank" rel="noopener noreferrer">
+      <h3>GitHub</h3>
+      <p>github.com/jjarre38</p>
+    </a>
+  </div>
+}
+      @case ('Extras') {
+  <h2>Extras</h2>
+  <div class="posts">
+    @for (post of posts; track post.title) {
+      <article class="post">
+        <h3>{{ post.title }}</h3>
+        <time>{{ post.date }}</time>
+
+        @for (paragraph of post.body; track $index) {
+          <p>{{ paragraph }}</p>
+        }
+
+        @if (post.videoUrl) {
+          <div class="video">
+            <iframe
+              [src]="post.videoUrl"
+              [title]="post.title"
+              loading="lazy"
+              allowfullscreen
+            ></iframe>
+          </div>
+        }
+      </article>
+    }
+  </div>
+}
+    }
+  </section>
+</main>
