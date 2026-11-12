@@ -127,6 +127,8 @@
               [src]="post.videoUrl"
               [title]="post.title"
               loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
             ></iframe>
           </div>
@@ -139,6 +141,7 @@
               [title]="post.title + ' (Instagram)'"
               loading="lazy"
               scrolling="no"
+              allow="encrypted-media; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
           </div>

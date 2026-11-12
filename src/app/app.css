@@ -584,8 +584,12 @@ a.card:active {
     height: 140px;
   }
 
-  .post {
+  .post,
+  .post:nth-child(even) {
     padding: 1.75rem 1rem 1.25rem;
+    /* Mobile browsers often fail to load/play iframes inside rotated elements,
+       so keep the flyers straight on phones (the tape strip still gives the look) */
+    transform: none;
   }
 
   .post h3 {
