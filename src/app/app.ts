@@ -83,7 +83,7 @@ readonly posts: PostView[] = this.rawPosts.map((post) => ({
   // Projects you're actively working on (shown at the top of the Projects tab)
   readonly currentProjects: Project[] = [
     {
-      title: 'ColorStack @ KSU Website',
+      title: 'SwAt @ KSU Website',
       summary: "Building the club's website with the Software Acceleration Team.",
       tags: ['Astro'],
     },
