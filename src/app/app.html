@@ -1,6 +1,6 @@
 <main class="home">
   <header class="header">
-    <h1 class="serif-title">Jairon Jarrett</h1>
+    <h1 class="name">Jairon Jarrett</h1>
     <p>Aspiring Software Engineer/Future Professor</p>
   </header>
 
@@ -23,24 +23,41 @@
     @switch (activeTab()) {
       @case ('About') {
         <h2>About</h2>
-        <p>My name is Jairon Jarrett and I am a senior at Kennesaw State University<br> pursuing a BS in Computer Science with a minor in Mathematics.<br>
-        I love to code, play guitar, workout, and watch UFC (every saturday)!</p>
+        <div class="profile-photo">
+          @if (profilePhoto && !photoFailed()) {
+            <img [src]="profilePhoto" alt="Photo of Jairon Jarrett" (error)="photoFailed.set(true)" />
+          } @else {
+            <span class="initials" aria-hidden="true">JJ</span>
+          }
+        </div>
+        <div class="about">
+          @for (paragraph of about; track $index) {
+            <p>{{ paragraph }}</p>
+          }
+        </div>
       }
       @case ('Projects') {
   <h2>Projects</h2>
+
+  @if (currentProjects.length) {
+    <h3 class="section-label">Currently Working On</h3>
+    <div class="cards">
+      @for (project of currentProjects; track project.title) {
+        <ng-container
+          [ngTemplateOutlet]="projectCard"
+          [ngTemplateOutletContext]="{ $implicit: project, current: true }"
+        />
+      }
+    </div>
+  }
+
+  <h3 class="section-label">Past Projects</h3>
   <div class="cards">
     @for (project of projects; track project.title) {
-      <a class="card" [href]="project.url" target="_blank" rel="noopener noreferrer">
-        <h3>{{ project.title }}</h3>
-        <p>{{ project.summary }}</p>
-        @if (project.tags?.length) {
-          <ul class="tags">
-            @for (tag of project.tags; track tag) {
-              <li>{{ tag }}</li>
-            }
-          </ul>
-        }
-      </a>
+      <ng-container
+        [ngTemplateOutlet]="projectCard"
+        [ngTemplateOutletContext]="{ $implicit: project, current: false }"
+      />
     }
   </div>
 }
@@ -59,6 +76,7 @@
 >
   <p>Your browser can't display PDFs inline. Use the links above to view it.</p>
 </object>
+<p class="resume-mobile-note">Tap "Open in new tab" above to view the resume.</p>
 }   
       @case ('Contact') {
   <h2>Contact</h2>
@@ -80,7 +98,19 @@
   </div>
 }
       @case ('Extras') {
-  <h2>Extras</h2>
+  <div class="gig-header">
+    <h2 class="gig-title">Extras</h2>
+    <p class="gig-sub">Shows &middot; Noise &middot; Everything else</p>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      @for (copy of [1, 2]; track copy) {
+        <span>&#9733; Live &amp; Loud &#9733; Riot Underground &#9733; DIY or Die &#9733; Turn It Up &#9733; Live &amp; Loud &#9733; Riot Underground &#9733; DIY or Die &#9733; Turn It Up&nbsp;</span>
+      }
+    </div>
+  </div>
+
   <div class="posts">
     @for (post of posts; track post.title) {
       <article class="post">
@@ -101,6 +131,18 @@
             ></iframe>
           </div>
         }
+
+        @if (post.instagramUrl) {
+          <div class="instagram">
+            <iframe
+              [src]="post.instagramUrl"
+              [title]="post.title + ' (Instagram)'"
+              loading="lazy"
+              scrolling="no"
+              allowfullscreen
+            ></iframe>
+          </div>
+        }
       </article>
     }
   </div>
@@ -108,3 +150,33 @@
     }
   </section>
 </main>
+
+<!-- Shared project card: a link if the project has a url, otherwise a plain card -->
+<ng-template #projectCard let-project let-current="current">
+  <ng-template #cardBody>
+    <h3>
+      {{ project.title }}
+      @if (current) {
+        <span class="status">In progress</span>
+      }
+    </h3>
+    <p>{{ project.summary }}</p>
+    @if (project.tags?.length) {
+      <ul class="tags">
+        @for (tag of project.tags; track tag) {
+          <li>{{ tag }}</li>
+        }
+      </ul>
+    }
+  </ng-template>
+
+  @if (project.url) {
+    <a class="card" [href]="project.url" target="_blank" rel="noopener noreferrer">
+      <ng-container [ngTemplateOutlet]="cardBody" />
+    </a>
+  } @else {
+    <div class="card">
+      <ng-container [ngTemplateOutlet]="cardBody" />
+    </div>
+  }
+</ng-template>

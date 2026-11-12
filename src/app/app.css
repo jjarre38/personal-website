@@ -1,14 +1,28 @@
-  .serif-title {
-        font-family: monospace;
-    }
-    :host {
-  display: flex;
-  justify-content: center;
-  /*align-items: center;      /* vertical centering; remove to keep it at the top */
+/* =========================================================
+   Retro punk / hardcore theme
+   - Main tabs: "xeroxed zine" — paper, black ink, red accents, still readable
+   - Extras tab: full gig-poster mode (dark page, flyers, tape, ticker)
+   ========================================================= */
+
+:host {
+  --paper: #f4f4f2;
+  --card: #ffffff;
+  --ink: #141414;
+  --muted: #4d4d4d;
+  --accent: #1e3a8a; /* dark blue accent: heading swipes, tab shadow, drop cap, stamps */
+
+  /* Background gradient — change these colors to restyle the page */
+  --bg-gradient: linear-gradient(160deg, #dff5ef 0%, #cfe0f5 50%, #ddd3f2 100%);
+
+  display: block;
   min-height: 100vh;
-  background: #fff;
-  color: #111;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: clip; /* rotated elements shouldn't cause sideways scroll */
+  background-color: var(--paper);
+  background-image: var(--grain), var(--bg-gradient);
+  background-attachment: scroll, fixed;
+  color: var(--ink);
+  font-family: var(--body);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .home {
@@ -16,53 +30,226 @@
   max-width: 640px;
   margin: 0 auto;
   padding: 4rem 1.5rem;
-  text-align: center;       /* centers the title, tagline and panel text */
+  box-sizing: border-box;
+  text-align: center;
 }
+
+/* ---------- Header ---------- */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.75rem, 10vw, 4.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 var(--accent);
+}
+
+.header p {
+  margin: 1rem 0 0;
+  padding: 0.35rem 0.85rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--type);
+  font-size: 0.95rem;
+  transform: rotate(-1deg);
+}
+
+/* ---------- Tabs ---------- */
 
 .tabs {
   display: flex;
-  justify-content: center;  /* centers the tab buttons */
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 0.5rem;
   margin-top: 2.5rem;
-  border-bottom: 1px solid #e5e5e5;
+  padding: 0 0.25rem 0.75rem;
+  border-bottom: 3px solid var(--ink);
 }
+
+.tab {
+  appearance: none;
+  padding: 0.4rem 0.9rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.12s, background-color 0.12s;
+}
+
+.tab:hover {
+  color: var(--accent);
+}
+
+.tab.active {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 3px 3px 0 var(--accent);
+}
+
+.tab:focus-visible {
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Panel headings ---------- */
+
+.panel {
+  margin-top: 2.5rem;
+}
+
+.panel > h2 {
+  position: relative;
+  z-index: 0;
+  display: inline-block;
+  margin: 0;
+  padding: 0 0.3rem;
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* red "marker" swipe behind headings */
+.panel > h2::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0.15em;
+  height: 0.4em;
+  background: var(--accent);
+  transform: skewX(-12deg);
+}
+
+/* ---------- About ---------- */
+
+/* Profile photo — framed like a pasted-in polaroid */
+.profile-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+  margin: 2rem auto 0;
+  padding: 6px;
+  box-sizing: border-box;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--accent);
+  transform: rotate(-2deg);
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crops any photo to fill the frame */
+  display: block;
+}
+
+.profile-photo .initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--display);
+  font-size: 3.5rem;
+  letter-spacing: 0.05em;
+  text-shadow: 3px 3px 0 var(--accent);
+}
+
+.about {
+  max-width: 34rem;
+  margin: 1.5rem auto 0;
+  text-align: left;
+}
+i 
+.about p {
+  margin: 0 0 1rem;
+  line-height: 1.7;
+  color: #2a2a2a;
+}
+
+.about p:first-child::first-letter {
+  float: left;
+  margin: 0.1rem 0.5rem 0 0;
+  font-family: var(--display);
+  font-size: 3.2rem;
+  line-height: 0.85;
+  color: var(--accent);
+}
+
+.about p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Cards (projects + contact) ---------- */
+
 .cards {
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
   margin-top: 1.5rem;
-  text-align: left; /* card text reads better left-aligned */
+  text-align: left;
 }
 
 .card {
   display: block;
   padding: 1.25rem;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
   color: inherit;
   text-decoration: none;
-  transition: border-color 0.15s, transform 0.15s;
+  transition: transform 0.12s, box-shadow 0.12s;
 }
 
-.card:hover {
-  border-color: #111;
-  transform: translateY(-2px);
+/* Only lift on devices with a real hover (avoids "stuck" hover after a tap on phones) */
+@media (hover: hover) {
+  a.card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--accent);
+  }
+}
+
+a.card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .card:focus-visible {
-  outline: 2px solid #111;
-  outline-offset: 2px;
+  outline: 2px dashed var(--accent);
+  outline-offset: 4px;
 }
 
 .card h3 {
   margin: 0 0 0.5rem;
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
 }
 
 .card p {
   margin: 0;
-  color: #555;
+  color: var(--muted);
   font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .tags {
@@ -75,22 +262,68 @@
 }
 
 .tags li {
-  padding: 0.15rem 0.6rem;
-  border: 1px solid #e5e5e5;
-  border-radius: 999px;
-  color: #666;
-  font-size: 0.8rem;
+  padding: 0.1rem 0.5rem;
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--type);
+  font-size: 0.78rem;
 }
+
+/* Projects sub-sections */
+.section-label {
+  margin: 2rem 0 0;
+  padding-left: 0.6rem;
+  border-left: 4px solid var(--accent);
+  color: var(--ink);
+  font-family: var(--type);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.section-label + .cards {
+  margin-top: 0.75rem;
+}
+
+/* rubber-stamp badge */
+.status {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.45rem;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--display);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  transform: rotate(-4deg);
+}
+
+/* ---------- Resume ---------- */
+
 .resume-actions {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
+  font-family: var(--type);
 }
 
-.resume-actions a {
+.resume-actions a,
+.contact-list a {
   color: inherit;
-  text-underline-offset: 3px;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.resume-actions a:hover,
+.contact-list a:hover {
+  color: var(--accent);
 }
 
 .resume-viewer {
@@ -98,9 +331,18 @@
   width: 100%;
   height: 75vh;
   min-height: 500px;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  background: #fff;
 }
+
+.resume-mobile-note {
+  display: none;
+  color: var(--muted);
+  font-family: var(--type);
+  font-size: 0.95rem;
+}
+
 .contact-list {
   margin: 0;
   padding: 0;
@@ -108,46 +350,164 @@
   line-height: 2;
 }
 
-.contact-list a {
-  color: inherit;
-  text-underline-offset: 3px;
+/* =========================================================
+   EXTRAS — gig poster mode
+   ========================================================= */
+
+:host(.gig-mode) {
+  --accent: #d7261e; /* Extras keeps its red gig-poster look */
+  --paper: #0e0d0c;
+  --card: #1a1816;
+  --ink: #f4f4f2;
+  --muted: #b5b5b5;
+  background-image: var(--grain-light),
+    radial-gradient(ellipse at top, rgba(215, 38, 30, 0.25), transparent 60%);
 }
 
-.contact-list a:hover {
-  text-decoration-thickness: 2px;
+:host(.gig-mode) .name {
+  text-shadow: 3px 0 0 var(--accent), -3px 0 0 #1fb5c7;
+  animation: jitter 4s steps(1) infinite;
 }
+
+:host(.gig-mode) .header p {
+  background: var(--accent);
+  color: #0e0d0c;
+}
+
+@keyframes jitter {
+  0%, 100% { transform: none; }
+  92% { transform: translate(2px, -1px) skewX(-4deg); }
+  94% { transform: translate(-3px, 1px); }
+  96% { transform: none; }
+}
+
+/* poster title block */
+.gig-header {
+  margin: 0.5rem auto 0;
+  padding: 1.5rem 1rem 1.25rem;
+  background: var(--accent);
+  color: #0e0d0c;
+  border: 3px solid #0e0d0c;
+  box-shadow: 8px 8px 0 #f4f4f2;
+  transform: rotate(-1.5deg);
+}
+
+.gig-title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(3.75rem, 17vw, 7.5rem);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0 #f4f4f2;
+}
+
+.gig-sub {
+  margin: 0.85rem 0 0;
+  font-family: var(--type);
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* scrolling ticker */
+.marquee {
+  margin-top: 2.25rem;
+  overflow: hidden;
+  background: #f4f4f2;
+  color: #0e0d0c;
+  border-block: 3px solid var(--accent);
+  transform: rotate(1deg);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.marquee-track span {
+  padding: 0.35rem 0;
+  font-family: var(--display);
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* posts as taped-up flyers */
 .posts {
   display: grid;
-  gap: 2.5rem;
-  margin-top: 1.5rem;
+  gap: 3.25rem;
+  margin-top: 3rem;
   text-align: left;
 }
 
 .post {
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+  padding: 2rem 1.5rem 1.5rem;
+  background-color: #f4f4f2;
+  background-image: var(--grain);
+  color: #141414;
+  box-shadow: 8px 8px 0 var(--accent);
+  transform: rotate(-1deg);
 }
 
-.post:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
+.post:nth-child(even) {
+  box-shadow: -8px 8px 0 var(--accent);
+  transform: rotate(1.2deg);
+}
+
+/* strip of tape */
+.post::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 110px;
+  height: 28px;
+  background: rgba(225, 228, 230, 0.75);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%) rotate(-4deg);
 }
 
 .post h3 {
+  display: inline-block;
   margin: 0;
-  font-size: 1.15rem;
-  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  background: #141414;
+  color: #f4f4f2;
+  font-family: var(--display);
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transform: rotate(-1deg);
 }
 
 .post time {
   display: block;
-  margin: 0.25rem 0 1rem;
-  color: #888;
-  font-size: 0.85rem;
+  margin: 0.75rem 0 1rem;
+  color: var(--accent);
+  font-family: var(--type);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+}
+
+.post time:empty,
+.post p:empty {
+  display: none;
 }
 
 .post p {
   margin: 0 0 1rem;
+  font-family: var(--type);
   line-height: 1.7;
 }
 
@@ -159,6 +519,95 @@
 .video iframe {
   width: 100%;
   height: 100%;
-  border: 0;
-  border-radius: 8px;
+  border: 3px solid #141414;
+  box-sizing: border-box;
+}
+
+/* Instagram embeds are portrait and include a header/caption, so give them a fixed height */
+.instagram {
+  max-width: 400px;
+  margin: 1.25rem auto 0;
+}
+
+.instagram iframe {
+  width: 100%;
+  height: 500px;
+  border: 3px solid #141414;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  :host(.gig-mode) .name {
+    animation: none;
+  }
+}
+
+/* ---------- Mobile / responsive ---------- */
+
+.card p,
+.post p {
+  overflow-wrap: anywhere; /* keep long emails/URLs from overflowing */
+}
+
+@media (max-width: 600px) {
+  .home {
+    padding: 2rem 1rem;
+  }
+
+  /* Tabs: allow side-scrolling instead of overflowing the screen */
+  .tabs {
+    justify-content: flex-start;
+    gap: 0;
+    margin-top: 1.5rem;
+    padding-right: 4px; /* room for the active tab's shadow */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    flex: 0 0 auto;
+    min-height: 44px; /* comfortable touch target */
+    padding: 0.5rem 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+  }
+
+  .profile-photo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .post {
+    padding: 1.75rem 1rem 1.25rem;
+  }
+
+  .post h3 {
+    font-size: 1.5rem;
+  }
+
+  /* Most mobile browsers can't show inline PDFs — show links instead */
+  .resume-viewer {
+    display: none;
+  }
+
+  .resume-mobile-note {
+    display: block;
+  }
+
+  .resume-actions a {
+    padding: 0.5rem 0;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 600px) {
+  .tabs {
+    justify-content: center;
+  }
 }
